@@ -46,6 +46,9 @@ public class RecipesController : ApiController
             Problem);
     }
 
+    [HttpGet]
+    public List<Recipe> GetAllRecipes() => _recipeService.GetAllRecipes();
+
     [HttpPut("{id:guid}")]
     public IActionResult UpsertRecipe(Guid id, UpsertRecipeRequest request)
     {

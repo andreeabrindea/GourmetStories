@@ -32,6 +32,8 @@ public class RecipeService : IRecipeService
         return recipe;
     }
 
+    public List<Recipe> GetAllRecipes() => _recipesCollection.Find(_ => true).ToList();
+
     public ErrorOr<UpsertRecipeResult> UpsertRecipe(Recipe recipe)
     {
         var existingRecipe = _recipesCollection.Find(r => r.Id == recipe.Id).FirstOrDefault();
