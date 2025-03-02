@@ -1,0 +1,5 @@
+@GourmetStories_HostAddress = http://localhost:5048
+
+POST {{GourmetStories_HostAddress}}/recipes/
+Accept: application/json
+###

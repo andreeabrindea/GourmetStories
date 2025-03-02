@@ -1,0 +1,15 @@
+POST http://localhost:5048/recipe
+Content-Type: application/json
+
+{
+    "name": "Carrot Cake",
+    "author": "JohnDoe",
+    "description": "Easy to bake",
+    "ingredients":[
+        "eggs",
+        "milk",
+        "carrots",
+        "flour"
+    ],
+    "instructions": "mix all ingredients and bake them for 30 minutes"
+}

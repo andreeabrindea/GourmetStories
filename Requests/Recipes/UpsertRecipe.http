@@ -1,0 +1,16 @@
+@id = 034d115b-b6a8-410d-bc9c-ec8f385569e7
+PUT http://localhost:5048/recipe/{{id}}
+Content-Type: application/json
+
+{
+    "name": "Carrot Cake",
+    "author": "John Doe",
+    "description": "Easy to bake",
+    "ingredients":[
+        "eggs",
+        "milk",
+        "carrots",
+        "flour"
+    ],
+    "instructions": "mix all ingredients and bake them for 30 minutes"
+}

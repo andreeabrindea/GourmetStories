@@ -1,0 +1,6 @@
+@id = 2664340a-51f3-4a5a-81de-99ac57d99d02
+GET http://localhost:5048/users/{{id}}
+Content-Type: application/json
+
+{}
+###

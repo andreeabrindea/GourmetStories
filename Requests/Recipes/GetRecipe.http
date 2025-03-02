@@ -1,0 +1,6 @@
+@id = 1a117097-cbec-4a86-882c-29c902c52f02
+GET http://localhost:5048/recipe/{{id}}
+Content-Type: application/json
+
+{}
+###

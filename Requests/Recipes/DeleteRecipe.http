@@ -1,0 +1,6 @@
+@id = 034d115b-b6a8-410d-bc9c-ec8f385569e7
+DELETE http://localhost:5048/recipe/{{id}}
+Content-Type: application/json
+
+{
+}
