@@ -6,6 +6,6 @@ public interface IUserService
 {
     ErrorOr<Created> CreateUser(User user);
     ErrorOr<User> GetUser(Guid id);
-    ErrorOr<Updated> UpsertUser(User user);
+    ErrorOr<UpsertUserResult> UpsertUser(User user);
     ErrorOr<Deleted> DeleteUser(Guid id);
 }

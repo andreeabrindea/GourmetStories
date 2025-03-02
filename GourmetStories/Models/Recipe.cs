@@ -1,4 +1,6 @@
 using ErrorOr;
+using MongoDB.Bson;
+using MongoDB.Bson.Serialization.Attributes;
 
 namespace GourmetStories.Models;
 
@@ -14,11 +16,23 @@ public class Recipe
         Instructions = instructions;
     }
 
+    [BsonId]
+    [BsonRepresentation(BsonType.String)]
     internal Guid Id { get; }
+    
+    [BsonElement("Name")]
     public string Name { get; set; }
+    
+    [BsonElement("Author")]
     public string Author { get; }
+    
+    [BsonElement("Description")]
     public string Description { get; set; }
+    
+    [BsonElement("Ingredients")]
     public string[] Ingredients { get; set; }
+    
+    [BsonElement("Instructions")]
     public string Instructions { get; set; }
 
     public static ErrorOr<Recipe> Create(string name, string author, string description, string[] ingredients, string instructions, Guid? id)

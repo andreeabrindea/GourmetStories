@@ -1,10 +1,12 @@
+using GourmetStories.Models;
 using GourmetStories.Services;
 using GourmetStories.Services.Recipes;
 
 var builder = WebApplication.CreateBuilder(args);
 {
     builder.Services.AddControllers();
-    //what is the difference between AddScoped & AddSingleton?
+    builder.Services.Configure<MongoDbSettings>(
+        builder.Configuration.GetSection("MongoDB"));
     builder.Services.AddScoped<IRecipeService, RecipeService>();
     builder.Services.AddScoped<IUserService, UserService>();
 }

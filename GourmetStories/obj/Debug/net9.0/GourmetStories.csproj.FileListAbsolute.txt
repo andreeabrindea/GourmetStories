@@ -34,3 +34,9 @@
 /Users/andreea/GourmetStories/GourmetStories/obj/Debug/net9.0/GourmetStories.genruntimeconfig.cache
 /Users/andreea/GourmetStories/GourmetStories/obj/Debug/net9.0/ref/GourmetStories.dll
 /Users/andreea/GourmetStories/GourmetStories/bin/Debug/net9.0/ErrorOr.dll
+/Users/andreea/GourmetStories/GourmetStories/bin/Debug/net9.0/DnsClient.dll
+/Users/andreea/GourmetStories/GourmetStories/bin/Debug/net9.0/MongoDB.Bson.dll
+/Users/andreea/GourmetStories/GourmetStories/bin/Debug/net9.0/MongoDB.Driver.dll
+/Users/andreea/GourmetStories/GourmetStories/bin/Debug/net9.0/SharpCompress.dll
+/Users/andreea/GourmetStories/GourmetStories/bin/Debug/net9.0/Snappier.dll
+/Users/andreea/GourmetStories/GourmetStories/bin/Debug/net9.0/ZstdSharp.dll

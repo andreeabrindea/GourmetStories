@@ -60,7 +60,7 @@ public class UsersController : ApiController
             return Problem(user.Errors);
         }
         
-        ErrorOr<Updated> updateRecipeResult = _userService.UpsertUser(user.Value);
+        ErrorOr<UpsertUserResult> updateRecipeResult = _userService.UpsertUser(user.Value);
         return updateRecipeResult.Match(
             updated => NoContent(),
             Problem);
@@ -94,5 +94,4 @@ public class UsersController : ApiController
             value: MapUserResponse(user)
         );
     }
-
 }

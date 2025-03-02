@@ -1,12 +1,21 @@
 using ErrorOr;
+using MongoDB.Bson;
+using MongoDB.Bson.Serialization.Attributes;
+
 namespace GourmetStories.Models;
 
 public class User
 {
+    [BsonId]
+    [BsonRepresentation(BsonType.String)]
     internal Guid Id { get; }
+    [BsonElement("Name")]
     internal string Name { get; }
+    [BsonElement("Username")]
     internal string Username { get; }
+    [BsonElement("Password")]
     internal string Password { get; }
+    [BsonElement("Email")]
     internal string Email { get; }
 
     public static ErrorOr<User> Create(string name, string username, string password, string email, Guid? id = null)
