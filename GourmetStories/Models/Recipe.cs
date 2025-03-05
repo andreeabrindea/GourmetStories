@@ -18,13 +18,14 @@ public class Recipe
 
     [BsonId]
     [BsonRepresentation(BsonType.String)]
-    internal Guid Id { get; }
+    [BsonElement("Id")]
+    public Guid Id { get; set; }
     
     [BsonElement("Name")]
     public string Name { get; set; }
     
     [BsonElement("Author")]
-    public string Author { get; }
+    public string Author { get; set; }
     
     [BsonElement("Description")]
     public string Description { get; set; }

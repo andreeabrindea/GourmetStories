@@ -3,8 +3,11 @@ using GourmetStories.Contracts.GourmetStories;
 using GourmetStories.Models;
 using GourmetStories.Services.Recipes;
 using ErrorOr;
+using Microsoft.AspNetCore.Cors;
 
 namespace GourmetStories.Controllers;
+
+[EnableCors("AllowAll")] 
 public class RecipesController : ApiController
 {
     private readonly IRecipeService _recipeService;
