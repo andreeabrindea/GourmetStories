@@ -3,6 +3,9 @@ using GourmetStories.Services;
 using GourmetStories.Services.Recipes;
 
 var builder = WebApplication.CreateBuilder(args);
+var port = Environment.GetEnvironmentVariable("PORT") ?? "5000";
+builder.WebHost.UseUrls($"http://*:{port}");
+builder = WebApplication.CreateBuilder(args);
 {
     builder.Services.AddControllers();
     builder.Services.Configure<MongoDbSettings>(
