@@ -13,12 +13,11 @@ var builder = WebApplication.CreateBuilder(args);
     {
         options.AddPolicy("AllowAll", builder =>
         {
-            builder.AllowAnyOrigin()   // Allow requests from any origin
-                .AllowAnyMethod()    // Allow any HTTP method
-                .AllowAnyHeader();   // Allow any headers
+            builder.AllowAnyOrigin()   
+                .AllowAnyMethod() 
+                .AllowAnyHeader();
         });
 
-        // Alternatively, for more restricted access:
         options.AddPolicy("ProductionPolicy", builder =>
         {
             builder.WithOrigins("https://localhost", "https://localhost")

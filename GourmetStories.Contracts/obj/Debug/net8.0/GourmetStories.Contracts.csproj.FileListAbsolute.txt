@@ -1,0 +1,11 @@
+/Users/andreea/GourmetStories/GourmetStories.Contracts/bin/Debug/net8.0/GourmetStories.Contracts.deps.json
+/Users/andreea/GourmetStories/GourmetStories.Contracts/bin/Debug/net8.0/GourmetStories.Contracts.dll
+/Users/andreea/GourmetStories/GourmetStories.Contracts/bin/Debug/net8.0/GourmetStories.Contracts.pdb
+/Users/andreea/GourmetStories/GourmetStories.Contracts/obj/Debug/net8.0/GourmetStories.Contracts.GeneratedMSBuildEditorConfig.editorconfig
+/Users/andreea/GourmetStories/GourmetStories.Contracts/obj/Debug/net8.0/GourmetStories.Contracts.AssemblyInfoInputs.cache
+/Users/andreea/GourmetStories/GourmetStories.Contracts/obj/Debug/net8.0/GourmetStories.Contracts.AssemblyInfo.cs
+/Users/andreea/GourmetStories/GourmetStories.Contracts/obj/Debug/net8.0/GourmetStories.Contracts.csproj.CoreCompileInputs.cache
+/Users/andreea/GourmetStories/GourmetStories.Contracts/obj/Debug/net8.0/GourmetStories.Contracts.dll
+/Users/andreea/GourmetStories/GourmetStories.Contracts/obj/Debug/net8.0/refint/GourmetStories.Contracts.dll
+/Users/andreea/GourmetStories/GourmetStories.Contracts/obj/Debug/net8.0/GourmetStories.Contracts.pdb
+/Users/andreea/GourmetStories/GourmetStories.Contracts/obj/Debug/net8.0/ref/GourmetStories.Contracts.dll
