@@ -13,8 +13,8 @@ var builder = WebApplication.CreateBuilder(args);
     {
         options.AddPolicy("AllowAll", builder =>
         {
-            builder.AllowAnyOrigin()   
-                .AllowAnyMethod() 
+            builder.AllowAnyOrigin()
+                .AllowAnyMethod()
                 .AllowAnyHeader();
         });
 
@@ -31,7 +31,10 @@ var app = builder.Build();
 {
     app.UseCors("AllowAll");
     app.UseExceptionHandler("/error");
-    app.UseHttpsRedirection();
+    if (app.Environment.IsDevelopment())
+    {
+        app.UseHttpsRedirection();
+    }
     app.MapControllers();
     app.Run();
 }
