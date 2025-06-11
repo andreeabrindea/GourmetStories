@@ -4,6 +4,7 @@ using GourmetStories.ServiceErrors;
 using GourmetStories.Services.Recipes;
 using Microsoft.Extensions.Options;
 using MongoDB.Driver;
+using System.Net.Mail;
 
 namespace GourmetStories.Services;
 
@@ -19,8 +20,29 @@ public class UserService : IUserService
 
     public ErrorOr<Created> CreateUser(User user)
     {
-        //TODO: add validation for existing username & email
-        //TODO: add validation for password
+        if (string.IsNullOrEmpty(user.Username))
+        {
+            return Errors.User.EmptyUsername;
+        }
+        
+        bool existsUsername = _usersCollection.Find(u => u.Username == user.Username).FirstOrDefault() != null;
+        if (existsUsername)
+        {
+            return Errors.User.UsernameAlreadyExists;
+        }
+
+        bool existsEmail = _usersCollection.Find(u => u.Email == user.Email).FirstOrDefault() != null;
+
+        if (existsEmail)
+        {
+            return Errors.User.EmailAlreadyRegisterd;
+        }
+
+        if (!IsEmailValid(user.Email))
+        {
+            return Errors.User.InvalidEmail;
+        }
+
         _usersCollection.InsertOne(user);
         return Result.Created;
     }
@@ -62,5 +84,19 @@ public class UserService : IUserService
 
         _usersCollection.DeleteOne(u => u.Id == id);
         return Result.Deleted;
+    }
+    private static bool IsEmailValid(string email)
+    {
+
+        try
+        {
+            MailAddress address = new MailAddress(email);
+            return address.Address == email;
+
+        }
+        catch (FormatException)
+        {
+            return false;
+        }
     }
 }
