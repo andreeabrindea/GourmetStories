@@ -8,22 +8,19 @@ public class User
 {
     [BsonId]
     [BsonRepresentation(BsonType.String)]
-    internal Guid Id { get; }
-    [BsonElement("Name")]
-    internal string Name { get; }
+    public Guid Id { get; set; }
     [BsonElement("Username")]
-    internal string Username { get; }
+    public string Username { get; set;}
     [BsonElement("Password")]
-    internal string Password { get; }
+    public string Password { get; set; }
     [BsonElement("Email")]
-    internal string Email { get; }
+    public string Email { get; set; }
 
-    public static ErrorOr<User> Create(string name, string username, string password, string email, Guid? id = null)
-    => new User(id ?? Guid.NewGuid(), name, username, password, email);
-    private User(Guid id, string name, string username, string password, string email)
+    public static ErrorOr<User> Create(string username, string password, string email, Guid? id = null)
+    => new User(id ?? Guid.NewGuid(), username, password, email);
+    private User(Guid id, string username, string password, string email)
     {
         Id = id;
-        Name = name;
         Username = username;
         Password = password;
         Email = email;
