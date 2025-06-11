@@ -9,18 +9,17 @@ namespace GourmetStories.Controllers;
 public class UsersController : ApiController
 {
     private readonly IUserService _userService;
-
+    private readonly IPasswordHasher _passwordHasher = new PasswordHasher();
     public UsersController(IUserService userService)
     {
         _userService = userService;
     }
     [HttpPost]
-    public IActionResult CreateRecipe(CreateUserRequest request)
+    public IActionResult CreateUser(CreateUserRequest request)
     {
         var user = Models.User.Create(
-            request.Name,
             request.Username,
-            request.Password,
+            _passwordHasher.Hash(request.Password),
             request.Email,
             Guid.NewGuid()
         );
@@ -29,12 +28,12 @@ public class UsersController : ApiController
         {
             return Problem(user.Errors);
         }
-        var createRecipeResult = _userService.CreateUser(user.Value);
-        return createRecipeResult.Match(
+        var createUserResult = _userService.CreateUser(user.Value);
+        return createUserResult.Match(
             _ => CreatedNewUser(user.Value),
             Problem);
     }
-    
+
     [HttpGet("{id:guid}")]
     public IActionResult GetUser(Guid id)
     {
@@ -48,7 +47,6 @@ public class UsersController : ApiController
     public IActionResult UpsertUser(Guid id, UpsertUserRequest request)
     {
         var user = Models.User.Create(
-            request.Name,
             request.Username,
             request.Password,
             request.Email,
@@ -59,15 +57,15 @@ public class UsersController : ApiController
         {
             return Problem(user.Errors);
         }
-        
-        ErrorOr<UpsertUserResult> updateRecipeResult = _userService.UpsertUser(user.Value);
-        return updateRecipeResult.Match(
+
+        ErrorOr<UpsertUserResult> updateUserResult = _userService.UpsertUser(user.Value);
+        return updateUserResult.Match(
             updated => NoContent(),
             Problem);
     }
 
     [HttpDelete("{id:guid}")]
-    public IActionResult DeleteRecipe(Guid id)
+    public IActionResult DeleteUser(Guid id)
     {
         ErrorOr<Deleted> deleteUserResult = _userService.DeleteUser(id);
         return deleteUserResult.Match(
@@ -78,7 +76,6 @@ public class UsersController : ApiController
     private static User MapUserResponse(User user)
     {
         return Models.User.Create(
-            user.Name,
             user.Username,
             user.Password,
             user.Email,
