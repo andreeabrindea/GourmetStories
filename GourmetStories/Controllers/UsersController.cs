@@ -76,6 +76,28 @@ public class UsersController : ApiController
             Problem);
     }
 
+    [HttpGet("/login")]
+    public IActionResult LoginUser(LoginRequest loginRequest)
+    {
+        ErrorOr<User> getUserResult = _userService.GetUserByEmail(loginRequest.Email);
+        return getUserResult.Match(
+            value =>
+            {
+                User user = value;
+                if (_passwordHasher.Verify(loginRequest.Password, user.Password))
+                {
+                    return Ok(MapUserResponse(user));
+                }
+                else
+                {
+                    return Problem(statusCode: 401, title: "Invalid credentials.");
+                }
+            },
+            Problem
+        );
+
+    }
+
     private static User MapUserResponse(User user)
     {
         return Models.User.Create(
