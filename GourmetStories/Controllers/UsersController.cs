@@ -43,6 +43,9 @@ public class UsersController : ApiController
             Problem);
     }
 
+    [HttpGet]
+    public List<User> GetAllUsers() => _userService.GetAllUsers();
+
     [HttpPut("{id:guid}")]
     public IActionResult UpsertUser(Guid id, UpsertUserRequest request)
     {

@@ -58,6 +58,9 @@ public class UserService : IUserService
         return user;
     }
 
+    public List<User> GetAllUsers() => _usersCollection.Find(_ => true).ToList();
+
+
     public ErrorOr<UpsertUserResult> UpsertUser(User user)
     {
         User existingUser = _usersCollection.Find(u => u.Id == user.Id).FirstOrDefault();
@@ -85,6 +88,23 @@ public class UserService : IUserService
         _usersCollection.DeleteOne(u => u.Id == id);
         return Result.Deleted;
     }
+
+    public ErrorOr<User> GetUserByEmail(string email)
+    {
+        if (!IsEmailValid(email))
+        {
+            return Errors.User.InvalidEmail;
+        }
+
+        User user = _usersCollection.Find(u => u.Email == email).FirstOrDefault();
+        if (user is null)
+        {
+            return Errors.User.EmailNotFound;
+        }
+
+        return user;
+    }
+
     private static bool IsEmailValid(string email)
     {
 
