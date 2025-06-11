@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("GourmetStories.Contracts")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+928593125ac836d38d3a7df81594665350b143a1")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+0e40060ee092ca36a59f104ccd007981e9e6da6f")]
 [assembly: System.Reflection.AssemblyProductAttribute("GourmetStories.Contracts")]
 [assembly: System.Reflection.AssemblyTitleAttribute("GourmetStories.Contracts")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
