@@ -13,7 +13,8 @@ public class ApiController : ControllerBase
         var statusCode = firstError.Type switch
         {
             ErrorType.NotFound => StatusCodes.Status404NotFound,
-            ErrorType.Validation => StatusCodes.Status400BadRequest,
+            ErrorType.Validation => StatusCodes.Status422UnprocessableEntity,
+            ErrorType.Conflict => StatusCodes.Status409Conflict,
             _ => StatusCodes.Status500InternalServerError
         };
         
