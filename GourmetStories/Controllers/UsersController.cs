@@ -73,7 +73,7 @@ public class UsersController : ApiController
             Problem);
     }
 
-    [HttpGet("/login")]
+    [HttpGet]
     public IActionResult LoginUser(LoginRequest loginRequest)
     {
         ErrorOr<User> getUserResult = _userService.GetUserByEmail(loginRequest.Email);
