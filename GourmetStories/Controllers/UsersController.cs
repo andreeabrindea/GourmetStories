@@ -30,6 +30,14 @@ public class UsersController(IUserService userService, TokenProvider tokenProvid
             Problem);
     }
 
+    public IActionResult GetUser(Guid id)
+    {
+        ErrorOr<User> getUserResult = userService.GetUser(id);
+        return getUserResult.Match(
+            user => Ok(MapUserResponse(user)),
+            Problem);
+    }
+
     [HttpPut("{id:guid}")]
     public IActionResult UpsertUser(Guid id, UpsertUserRequest request)
     {
@@ -81,7 +89,17 @@ public class UsersController(IUserService userService, TokenProvider tokenProvid
         );
 
     }
-    
+
+    private static User MapUserResponse(User user)
+    {
+        return Models.User.Create(
+            user.Username,
+            user.Password,
+            user.Email,
+            user.Id
+        ).Value;
+    }
+
     private CreatedAtActionResult CreatedNewUser(User user)
     {
         return CreatedAtAction(
