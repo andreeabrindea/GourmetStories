@@ -6,14 +6,10 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace GourmetStories.Controllers;
 
-public class UsersController : ApiController
+public class UsersController(IUserService userService, TokenProvider tokenProvider) : ApiController
 {
-    private readonly IUserService _userService;
     private readonly IPasswordHasher _passwordHasher = new PasswordHasher();
-    public UsersController(IUserService userService)
-    {
-        _userService = userService;
-    }
+
     [HttpPost]
     public IActionResult CreateUser(CreateUserRequest request)
     {
@@ -28,7 +24,7 @@ public class UsersController : ApiController
         {
             return Problem(user.Errors);
         }
-        var createUserResult = _userService.CreateUser(user.Value);
+        var createUserResult = userService.CreateUser(user.Value);
         return createUserResult.Match(
             _ => CreatedNewUser(user.Value),
             Problem);
@@ -37,7 +33,7 @@ public class UsersController : ApiController
     [HttpGet("{id:guid}")]
     public IActionResult GetUser(Guid id)
     {
-        ErrorOr<User> getUserResult = _userService.GetUser(id);
+        ErrorOr<User> getUserResult = userService.GetUser(id);
         return getUserResult.Match(
             user => Ok(MapUserResponse(user)),
             Problem);
@@ -58,7 +54,7 @@ public class UsersController : ApiController
             return Problem(user.Errors);
         }
 
-        ErrorOr<UpsertUserResult> updateUserResult = _userService.UpsertUser(user.Value);
+        ErrorOr<UpsertUserResult> updateUserResult = userService.UpsertUser(user.Value);
         return updateUserResult.Match(
             updated => NoContent(),
             Problem);
@@ -67,7 +63,7 @@ public class UsersController : ApiController
     [HttpDelete("{id:guid}")]
     public IActionResult DeleteUser(Guid id)
     {
-        ErrorOr<Deleted> deleteUserResult = _userService.DeleteUser(id);
+        ErrorOr<Deleted> deleteUserResult = userService.DeleteUser(id);
         return deleteUserResult.Match(
             _ => NoContent(),
             Problem);
@@ -76,7 +72,7 @@ public class UsersController : ApiController
     [HttpGet]
     public IActionResult LoginUser(LoginRequest loginRequest)
     {
-        ErrorOr<User> getUserResult = _userService.GetUserByEmail(loginRequest.Email);
+        ErrorOr<User> getUserResult = userService.GetUserByEmail(loginRequest.Email);
         return getUserResult.Match(
             value =>
             {
@@ -95,14 +91,9 @@ public class UsersController : ApiController
 
     }
 
-    private static User MapUserResponse(User user)
+    private string MapUserResponse(User user)
     {
-        return Models.User.Create(
-            user.Username,
-            user.Password,
-            user.Email,
-            user.Id
-        ).Value;
+        return tokenProvider.Create(user);
     }
 
     private CreatedAtActionResult CreatedNewUser(User user)
@@ -110,7 +101,7 @@ public class UsersController : ApiController
         return CreatedAtAction(
             actionName: nameof(GetUser),
             routeValues: new { id = user.Id },
-            value: MapUserResponse(user)
+            value: tokenProvider.Create(user)
         );
     }
 }

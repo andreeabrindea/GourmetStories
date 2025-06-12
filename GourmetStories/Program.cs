@@ -12,6 +12,7 @@ builder = WebApplication.CreateBuilder(args);
         builder.Configuration.GetSection("MongoDB"));
     builder.Services.AddScoped<IRecipeService, RecipeService>();
     builder.Services.AddScoped<IUserService, UserService>();
+    builder.Services.AddSingleton<TokenProvider>();
     builder.Services.AddCors(options =>
     {
         options.AddPolicy("AllowAll", builder =>
