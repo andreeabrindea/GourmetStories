@@ -30,15 +30,6 @@ public class UsersController(IUserService userService, TokenProvider tokenProvid
             Problem);
     }
 
-    [HttpGet("{id:guid}")]
-    public IActionResult GetUser(Guid id)
-    {
-        ErrorOr<User> getUserResult = userService.GetUser(id);
-        return getUserResult.Match(
-            user => Ok(MapUserResponse(user)),
-            Problem);
-    }
-
     [HttpPut("{id:guid}")]
     public IActionResult UpsertUser(Guid id, UpsertUserRequest request)
     {
@@ -79,7 +70,7 @@ public class UsersController(IUserService userService, TokenProvider tokenProvid
                 User user = value;
                 if (_passwordHasher.Verify(loginRequest.Password, user.Password))
                 {
-                    return Ok(MapUserResponse(user));
+                    return Ok(tokenProvider.Create(user));
                 }
                 else
                 {
@@ -90,12 +81,7 @@ public class UsersController(IUserService userService, TokenProvider tokenProvid
         );
 
     }
-
-    private string MapUserResponse(User user)
-    {
-        return tokenProvider.Create(user);
-    }
-
+    
     private CreatedAtActionResult CreatedNewUser(User user)
     {
         return CreatedAtAction(
