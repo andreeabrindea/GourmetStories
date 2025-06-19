@@ -68,8 +68,8 @@ public class UsersController(IUserService userService, TokenProvider tokenProvid
             Problem);
     }
 
-    [HttpGet]
-    public IActionResult LoginUser([FromQuery]LoginRequest loginRequest)
+    [HttpPost("login")]
+    public IActionResult LoginUser(LoginRequest loginRequest)
     {
         ErrorOr<User> getUserResult = userService.GetUserByEmail(loginRequest.Email);
         return getUserResult.Match(
