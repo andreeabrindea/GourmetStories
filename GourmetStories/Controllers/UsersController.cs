@@ -26,7 +26,11 @@ public class UsersController(IUserService userService, TokenProvider tokenProvid
         }
         var createUserResult = userService.CreateUser(user.Value);
         return createUserResult.Match(
-            _ => CreatedNewUser(user.Value),
+            _ =>
+            {
+                SetAuthenticationCookies(tokenProvider.Create(user.Value));
+                return Ok(new { message = "User created successfully" });
+            },
             Problem);
     }
 
@@ -78,16 +82,20 @@ public class UsersController(IUserService userService, TokenProvider tokenProvid
                 User user = value;
                 if (_passwordHasher.Verify(loginRequest.Password, user.Password))
                 {
-                    return Ok(tokenProvider.Create(user));
+                    SetAuthenticationCookies(tokenProvider.Create(user));
+                    return Ok(new { message = "Login successful"});
                 }
-                else
-                {
-                    return Problem(statusCode: 401, title: "Invalid credentials.");
-                }
+                return Problem(statusCode: 401, title: "Invalid credentials.");
             },
             Problem
         );
-
+    }
+    
+    [HttpPost("logout")]
+    public IActionResult LogoutUser()
+    {
+        Response.Cookies.Delete("authToken");
+        return Ok(new { message = "Logged out successfully" });
     }
 
     private static User MapUserResponse(User user)
@@ -100,12 +108,16 @@ public class UsersController(IUserService userService, TokenProvider tokenProvid
         ).Value;
     }
 
-    private CreatedAtActionResult CreatedNewUser(User user)
+    private void SetAuthenticationCookies(string token)
     {
-        return CreatedAtAction(
-            actionName: nameof(GetUser),
-            routeValues: new { id = user.Id },
-            value: tokenProvider.Create(user)
-        );
+        const int cookieExpirationDays = 28;
+        CookieOptions cookieOptions = new CookieOptions
+        {
+            HttpOnly = true,
+            Secure = true,
+            Expires = DateTime.Now.AddDays(cookieExpirationDays),
+            Path = "/"
+        };
+        Response.Cookies.Append("authToken", token, cookieOptions);
     }
 }
