@@ -85,9 +85,9 @@ public class UsersController(IUserService userService, TokenProvider tokenProvid
                     SetAuthenticationCookies(tokenProvider.Create(user));
                     return Ok(new { message = "Login successful"});
                 }
-                return Problem(statusCode: 401, title: "Invalid credentials.");
+                return StatusCode(401, new { message = "Invalid credentials."});
             },
-            Problem
+            NotFound
         );
     }
     
