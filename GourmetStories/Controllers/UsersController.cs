@@ -26,11 +26,7 @@ public class UsersController(IUserService userService, TokenProvider tokenProvid
         }
         var createUserResult = userService.CreateUser(user.Value);
         return createUserResult.Match(
-            _ =>
-            {
-                SetAuthenticationCookies(tokenProvider.Create(user.Value));
-                return Ok(new { message = "User created successfully" });
-            },
+            _ =>  Ok(tokenProvider.Create(user.Value)),
             Problem);
     }
 
@@ -82,8 +78,7 @@ public class UsersController(IUserService userService, TokenProvider tokenProvid
                 User user = value;
                 if (_passwordHasher.Verify(loginRequest.Password, user.Password))
                 {
-                    SetAuthenticationCookies(tokenProvider.Create(user));
-                    return Ok(new { message = "Login successful"});
+                    return Ok(tokenProvider.Create(user));
                 }
                 return StatusCode(401, new { statusText = "Invalid credentials."});
             },
@@ -106,18 +101,5 @@ public class UsersController(IUserService userService, TokenProvider tokenProvid
             user.Email,
             user.Id
         ).Value;
-    }
-
-    private void SetAuthenticationCookies(string token)
-    {
-        const int cookieExpirationDays = 28;
-        CookieOptions cookieOptions = new CookieOptions
-        {
-            HttpOnly = true,
-            Secure = true,
-            Expires = DateTime.Now.AddDays(cookieExpirationDays),
-            Path = "/"
-        };
-        Response.Cookies.Append("authToken", token, cookieOptions);
     }
 }
